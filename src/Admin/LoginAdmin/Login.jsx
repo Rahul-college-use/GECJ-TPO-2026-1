@@ -12,7 +12,7 @@ const Login = () => {
     }, [adminId, navigate]);
 
     const [role, setRole] = useState('student');
-    const [formData, setFormData] = useState({ identifier: '', password: '' });
+    const [formData, setFormData] = useState({ email: '', password: '' });
 
     const formHandler = async (e) => {
         e.preventDefault();
@@ -31,7 +31,7 @@ const Login = () => {
                 // console.log("Login Response:", res, data);
                 
                 if (data.message === "True") {
-                    localStorage.setItem("student", formData.identifier);
+                    localStorage.setItem("student", formData.email);
                     localStorage.setItem("StudentToken", data.token);
                     window.location.href = "/";
                 } else {
@@ -59,7 +59,7 @@ const Login = () => {
                 // console.log("Login Response:", res, data);
                 
                 if (data.message === "True") {
-                    localStorage.setItem("admin", formData.identifier);
+                    localStorage.setItem("admin", formData.email);
                     localStorage.setItem("adminToken", data.token);
                     window.location.href = "/";
                 } else {
@@ -112,14 +112,14 @@ const Login = () => {
                     <div className="flex bg-slate-100 p-1 rounded-lg mb-8">
                         <button
                             type="button"
-                            onClick={() => { setRole('student'); setFormData({ identifier: '', password: '' }) }}
+                            onClick={() => { setRole('student'); setFormData({ email: '', password: '' }) }}
                             className={`flex-1 py-2 text-sm font-bold rounded-md transition-all ${role === 'student' ? 'bg-white text-blue-900 shadow-sm' : 'text-slate-500'}`}
                         >
                             Student
                         </button>
                         <button
                             type="button"
-                            onClick={() => { setRole('admin'); setFormData({ identifier: '', password: '' }) }}
+                            onClick={() => { setRole('admin'); setFormData({ email: '', password: '' }) }}
                             className={`flex-1 py-2 text-sm font-bold rounded-md transition-all ${role === 'admin' ? 'bg-white text-blue-900 shadow-sm' : 'text-slate-500'}`}
                         >
                             Admin/TPO
@@ -133,8 +133,8 @@ const Login = () => {
                             </label>
                             <input
                                 required
-                                name="identifier"
-                                value={formData.identifier}
+                                name="email"
+                                value={formData.email}
                                 onChange={inputHandler}
                                 type={role === 'student' ? "text" : "email"}
                                 placeholder={role === 'student' ? "e.g., 21105..." : "admin@gecjehanabad.ac.in"}
