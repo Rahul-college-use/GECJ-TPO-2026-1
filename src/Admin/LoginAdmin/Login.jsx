@@ -20,7 +20,7 @@ const Login = () => {
         if (role === 'student') {
             // alert("Student Login functionality not implemented yet");
                 try {
-                const res = await fetch('/api/student/login', {
+                const res = await fetch('https://api-gecj-test4-9s4l.vercel.app/api/student/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData),
@@ -48,7 +48,7 @@ const Login = () => {
 
         } else {
             try {
-                const res = await fetch('/api/admin/login', {
+                const res = await fetch('https://api-gecj-test4-9s4l.vercel.app/api/admin/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData),
