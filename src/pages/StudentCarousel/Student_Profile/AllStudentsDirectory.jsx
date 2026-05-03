@@ -113,7 +113,7 @@ const AllStudentsDirectory = () => {
                 <div className="w-14 h-14 bg-slate-100 rounded-2xl overflow-hidden flex items-center justify-center text-xl font-black group-hover:ring-4 group-hover:ring-blue-50 transition-all duration-500">
                   {student.photo ? (
                     <img 
-                      src={`${BACKEND_URL}${student.photo}`} 
+                      src={`${student.photo}`} 
                       alt={student.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
