@@ -111,7 +111,7 @@ const EditStudent = () => {
         });
 
         try {
-            const response = await fetch(`/api/student/update/${id}`, {
+            const response = await fetch(`https://gecj-tpo-2026-1.vercel.app/api/student/update/${id}`, {
                 method: 'POST',
                 body: data
             });

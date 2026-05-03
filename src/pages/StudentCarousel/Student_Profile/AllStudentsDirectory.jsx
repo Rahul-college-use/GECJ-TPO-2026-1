@@ -8,7 +8,7 @@ const AllStudentsDirectory = () => {
   const [activeBranch, setActiveBranch] = useState('All');
 
   // CHANGE THIS: Replace with your actual backend server URL
-  const BACKEND_URL = "http://localhost:3000"; 
+  const BACKEND_URL = "https://gecj-tpo-2026-1.vercel.app";
 
   const mockData = [
     { id: "21105110001", name: "Abhishek Singh", branch: "CSE", batch: "2021-25", status: "Placed", cgpa: "8.4" },
@@ -21,7 +21,7 @@ const AllStudentsDirectory = () => {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const res = await fetch('/get/students', {
+        const res = await fetch('https://gecj-tpo-2026-1.vercel.app/get/students', {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         });

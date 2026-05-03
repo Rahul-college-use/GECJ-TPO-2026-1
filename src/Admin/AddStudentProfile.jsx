@@ -76,7 +76,7 @@ const AdminStudentProfile = () => {
     });
 
     try {
-      const response = await fetch('/api/students/register', {
+      const response = await fetch('https://gecj-tpo-2026-1.vercel.app/api/students/register', {
         method: 'POST',
         body: data
       });
