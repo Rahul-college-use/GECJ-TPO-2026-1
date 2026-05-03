@@ -78,6 +78,9 @@ const AdminStudentProfile = () => {
     try {
       const response = await fetch('https://api-gecj-test4.vercel.app/api/students/register', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: data
       });
       // console.log(response)
