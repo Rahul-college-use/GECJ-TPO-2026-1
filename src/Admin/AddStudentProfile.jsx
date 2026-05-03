@@ -5,7 +5,7 @@ const AdminStudentProfile = () => {
   const navigate = useNavigate();
   const year = new Date().getFullYear();
 
-  // Protect the Route properly using Navigate
+  // Protect the Route
   useEffect(() => {
     const adminId = localStorage.getItem("admin");
     if (!adminId) {
@@ -27,6 +27,20 @@ const AdminStudentProfile = () => {
 
   const [currentSkill, setCurrentSkill] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
+
+  // --- Helper Function to convert File to Base64 ---
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,20 +78,25 @@ const AdminStudentProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const data = new FormData();
+
+    let base64Photo = null;
+
+    // फोटो को Base64 में बदलें अगर फोटो सिलेक्टेड है
+    if (formData.photo) {
+      try {
+        base64Photo = await convertToBase64(formData.photo);
+      } catch (err) {
+        console.error("Error converting photo:", err);
+        alert("Photo processing failed");
+        return;
+      }
+    }
+
+    // JSON डेटा तैयार करें
     const jsonData = {
       ...formData,
-      skills: formData.skills
+      photo: base64Photo // अब यहाँ File object की जगह Base64 string जाएगी
     };
-
-    // // Mapping all fields to FormData
-    // Object.keys(formData).forEach(key => {
-    //   if (key === 'skills') {
-    //     data.append(key, JSON.stringify(formData[key]));
-    //   } else {
-    //     data.append(key, formData[key]);
-    //   }
-    // });
 
     try {
       const response = await fetch('https://api-gecj-test4.vercel.app/api/students/register', {
@@ -87,7 +106,6 @@ const AdminStudentProfile = () => {
         },
         body: JSON.stringify(jsonData)
       });
-      // console.log(response)
 
       const result = await response.json();
 
@@ -103,6 +121,7 @@ const AdminStudentProfile = () => {
       }
     } catch (err) {
       console.error("Upload failed", err);
+      alert("Something went wrong. Please check your backend connection.");
     }
   };
 
@@ -225,7 +244,6 @@ const AdminStudentProfile = () => {
   );
 };
 
-// Reusable Input Component
 const InputField = ({ label, ...props }) => (
   <div className="space-y-2">
     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">{label}</label>
