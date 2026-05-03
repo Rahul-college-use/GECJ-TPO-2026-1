@@ -64,7 +64,11 @@ const AdminStudentProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
+    // const data = new FormData();
+    const jsonData = {
+      ...formData,
+      skills: formData.skills
+    };
 
     // Mapping all fields to FormData
     Object.keys(formData).forEach(key => {
@@ -81,7 +85,7 @@ const AdminStudentProfile = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: data
+        body: JSON.stringify(jsonData)
       });
       // console.log(response)
 
