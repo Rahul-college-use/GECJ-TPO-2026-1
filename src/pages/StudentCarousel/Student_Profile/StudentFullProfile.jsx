@@ -71,7 +71,7 @@ const StudentFullProfile = () => {
               <div className="relative w-32 h-35 mx-auto mb-6">
                 <div className="absolute inset-0 bg-blue-600 rounded-full blur-2xl opacity-10"></div>
                 <img
-                  src={student.photo ? student.photo : `https://api.dicebear.com/7.x/avataaars/svg?seed=${student.name}`}
+                  src={student.photo ? `{https://api-gecj-test4.vercel.app/}${student.photo}` : `https://api.dicebear.com/7.x/avataaars/svg?seed=${student.name}`}
                   alt="Profile"
                   className="relative w-full h-full rounded-full border-4 border-white shadow-xl bg-slate-50"
                 />
