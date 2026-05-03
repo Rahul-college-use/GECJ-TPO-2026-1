@@ -70,14 +70,14 @@ const AdminStudentProfile = () => {
       skills: formData.skills
     };
 
-    // Mapping all fields to FormData
-    Object.keys(formData).forEach(key => {
-      if (key === 'skills') {
-        data.append(key, JSON.stringify(formData[key]));
-      } else {
-        data.append(key, formData[key]);
-      }
-    });
+    // // Mapping all fields to FormData
+    // Object.keys(formData).forEach(key => {
+    //   if (key === 'skills') {
+    //     data.append(key, JSON.stringify(formData[key]));
+    //   } else {
+    //     data.append(key, formData[key]);
+    //   }
+    // });
 
     try {
       const response = await fetch('https://api-gecj-test4.vercel.app/api/students/register', {
