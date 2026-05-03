@@ -14,7 +14,7 @@ const StudentsCarousel = () => {
     const fetchStudents = async () => {
       try {
         setLoading(true);
-        const res = await fetch('https://api-gecj-test4.vercel.app/api/students/register/get/students');
+        const res = await fetch('https://api-gecj-test4.vercel.app/get/students');
         const data = await res.json();
         setStudentsData(Array.isArray(data) ? data : []);
       } catch (err) {
