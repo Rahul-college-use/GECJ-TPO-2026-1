@@ -21,7 +21,7 @@ const AllStudentsDirectory = () => {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const res = await fetch('https://gecj-tpo-2026-1.vercel.app/get/students', {
+        const res = await fetch('https://api-gecj-test4.vercel.app/get/students', {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         });

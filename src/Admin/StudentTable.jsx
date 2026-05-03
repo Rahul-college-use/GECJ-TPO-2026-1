@@ -24,7 +24,7 @@ const StudentTable = () => {
     const fetchStudents = async () => {
       try {
         setLoading(true);
-        const res = await fetch('https://gecj-tpo-2026-1.vercel.app/get/students');
+        const res = await fetch('https://api-gecj-test4.vercel.app/get/students');
         const data = await res.json();
         setStudents(Array.isArray(data) ? data : []);
       } catch (err) {
@@ -61,7 +61,7 @@ const StudentTable = () => {
   const handleDelete = async (id, name) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
       try {
-        const res = await fetch(`https://gecj-tpo-2026-1.vercel.app/api/delete/student/${id}`, { method: 'DELETE' });
+        const res = await fetch(`https://api-gecj-test4.vercel.app/api/delete/student/${id}`, { method: 'DELETE' });
         if (res.ok) {
           setStudents(students.filter(s => s._id !== id));
           alert("Student record deleted successfully.");

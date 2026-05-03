@@ -9,7 +9,7 @@ const StudentFullProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`https://gecj-tpo-2026-1.vercel.app/get/studentProfile/id/${id}`);
+        const res = await fetch(`https://api-gecj-test4.vercel.app/get/studentProfile/id/${id}`);
         const data = await res.json();
         setStudent(data);
       } catch (error) {
