@@ -27,7 +27,7 @@ const AdminStudentProfile = () => {
   const [currentSkill, setCurrentSkill] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  // ✅ COMPRESS + CONVERT TO BASE64 (~40KB)
+  // ✅ COMPRESS + BASE64 (40KB)
   const compressAndConvertToBase64 = (file, maxSizeKB = 40) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -44,10 +44,9 @@ const AdminStudentProfile = () => {
           let width = img.width;
           let height = img.height;
 
-          // resize
           const maxWidth = 600;
           if (width > maxWidth) {
-            height = height * (maxWidth / width);
+            height *= maxWidth / width;
             width = maxWidth;
           }
 
@@ -59,7 +58,6 @@ const AdminStudentProfile = () => {
           let quality = 0.7;
           let base64;
 
-          // loop until size < 40KB
           do {
             base64 = canvas.toDataURL("image/jpeg", quality);
             quality -= 0.05;
@@ -80,13 +78,12 @@ const AdminStudentProfile = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // ✅ PHOTO HANDLER (with validation)
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
 
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        alert("Image too large! Max 2MB allowed.");
+        alert("Max 2MB allowed");
         return;
       }
 
@@ -123,12 +120,10 @@ const AdminStudentProfile = () => {
 
     let base64Photo = null;
 
-    // ✅ COMPRESS IMAGE HERE
     if (formData.photo) {
       try {
         base64Photo = await compressAndConvertToBase64(formData.photo, 40);
       } catch (err) {
-        console.error("Image processing error:", err);
         alert("Photo processing failed");
         return;
       }
@@ -150,59 +145,81 @@ const AdminStudentProfile = () => {
 
       if (response.ok) {
         alert("Student Profile Created Successfully");
-
         setFormData({
-          name: '',
-          dept: '',
-          phone: '',
-          email: '',
-          reg_no: '',
-          session: '',
-          linkedIn: '',
-          skills: [],
-          photo: null
+          name: '', dept: '', phone: '', email: '',
+          reg_no: '', session: '', linkedIn: '', skills: [], photo: null
         });
-
         setPreviewUrl(null);
       } else {
         alert(result.message || "Registration Failed");
       }
 
     } catch (err) {
-      console.error("Upload failed", err);
-      alert("Backend connection error");
+      alert("Backend error");
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* FORM SECTION */}
+        <div className="lg:col-span-8 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-slate-100">
+          <header className="mb-10">
+            <h1 className="text-3xl font-black text-slate-900">
+              Register New <span className="text-blue-600">Student</span>
+            </h1>
+            <div className="h-1 w-12 bg-blue-600 mt-2 rounded-full"></div>
+          </header>
 
-        {/* FORM */}
-        <div className="lg:col-span-8 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border">
-          <h1 className="text-3xl font-black mb-6">Register Student</h1>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} required />
+              <InputField label="Department" name="dept" value={formData.dept} onChange={handleChange} required />
+              <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required />
+              <InputField label="Registration No" name="reg_no" value={formData.reg_no} onChange={handleChange} required />
+              <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} required />
+            </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+            <InputField label="LinkedIn URL" name="linkedIn" value={formData.linkedIn} onChange={handleChange} required />
 
-            <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} required />
-            <InputField label="Department" name="dept" value={formData.dept} onChange={handleChange} required />
-            <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required />
-            <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} required />
+            {/* Skills */}
+            <div className="space-y-4">
+              <label className="text-[10px] font-black uppercase text-slate-400">Skills</label>
+              <div className="flex flex-wrap gap-2">
+                {formData.skills.map(skill => (
+                  <span key={skill} className="px-3 py-1 bg-blue-100 text-blue-600 rounded">
+                    {skill}
+                    <button onClick={() => removeSkill(skill)}>×</button>
+                  </span>
+                ))}
+              </div>
+              <input
+                value={currentSkill}
+                onChange={(e) => setCurrentSkill(e.target.value)}
+                onKeyDown={addSkill}
+                className="w-full p-3 border rounded"
+                placeholder="Press Enter"
+              />
+            </div>
 
-            {/* PHOTO */}
+            {/* Photo */}
             <input type="file" accept="image/*" onChange={handlePhotoChange} />
 
-            <button className="w-full bg-blue-600 text-white py-3 rounded-xl">
-              Submit
+            <button className="w-full bg-blue-900 text-white py-4 rounded-xl">
+              Save Profile
             </button>
           </form>
         </div>
 
         {/* PREVIEW */}
         <div className="lg:col-span-4">
-          <div className="bg-white p-6 rounded-xl text-center">
-            {previewUrl && <img src={previewUrl} className="w-32 h-32 mx-auto rounded-full object-cover" />}
-            <h2 className="mt-4 font-bold">{formData.name || "Name"}</h2>
+          <div className="bg-white p-6 rounded-3xl text-center shadow">
+            {previewUrl && (
+              <img src={previewUrl} className="w-32 h-32 rounded-full mx-auto object-cover" />
+            )}
+            <h3 className="mt-4 font-bold">{formData.name || "Student Name"}</h3>
           </div>
         </div>
 
@@ -213,8 +230,8 @@ const AdminStudentProfile = () => {
 
 const InputField = ({ label, ...props }) => (
   <div>
-    <label className="block text-sm mb-1">{label}</label>
-    <input {...props} className="w-full border p-2 rounded" />
+    <label className="text-xs font-bold">{label}</label>
+    <input {...props} className="w-full p-3 border rounded-xl" />
   </div>
 );
 
