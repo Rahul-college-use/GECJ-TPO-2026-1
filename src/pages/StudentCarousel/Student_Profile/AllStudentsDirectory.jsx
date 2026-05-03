@@ -8,7 +8,7 @@ const AllStudentsDirectory = () => {
   const [activeBranch, setActiveBranch] = useState('All');
 
   // CHANGE THIS: Replace with your actual backend server URL
-  const BACKEND_URL = "https://api-gecj-test4.vercel.app/uploads/";
+  const BACKEND_URL = "https://api-gecj-test4.vercel.app/";
 
   const mockData = [
     { id: "21105110001", name: "Abhishek Singh", branch: "CSE", batch: "2021-25", status: "Placed", cgpa: "8.4" },

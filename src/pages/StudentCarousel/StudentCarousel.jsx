@@ -139,7 +139,7 @@ const StudentsCarousel = () => {
                 <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-0 group-hover:opacity-20 transition-opacity"></div>
                 <div className="relative w-full h-full overflow-hidden rounded-full border-4 border-white shadow-lg">
                   <img
-                    src={student.photo ? `https://api-gecj-test4.vercel.app/uploads/${student.photo}` : `https://api.dicebear.com/7.x/initials/svg?seed=${student.name}`}
+                    src={student.photo ? `https://api-gecj-test4.vercel.app/${student.photo}` : `https://api.dicebear.com/7.x/initials/svg?seed=${student.name}`}
                     alt={student.name}
                     className="w-full h-full object-cover transition-transform group-hover:scale-110"
                     onError={(e) => { e.target.src = "https://api.dicebear.com/7.x/initials/svg?seed=" + student.name }}
